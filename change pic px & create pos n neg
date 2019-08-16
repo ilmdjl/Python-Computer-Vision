@@ -1,0 +1,36 @@
+def convert_images_to_50_px():
+    if not os.path.exists('small'):
+        os.makedirs('small')
+
+    match = False
+    for file_type in ['pos']:
+        for img in os.listdir(file_type):
+            try:
+                current_image_path = str(file_type) + '/' + str(img)
+                imgage = cv2.imread(current_image_path, 0)
+                resized_image = cv2.resize(imgage, (50, 50))
+                cv2.imwrite(str(file_type) + '/' + str(img), resized_image)
+
+
+
+
+
+
+            except Exception as e:
+                print(str(e))
+
+
+
+def create_pos_n_neg():
+        for file_type in ['pos']:
+
+            for img in os.listdir(file_type):
+
+                if file_type == 'pos':
+                    line = file_type + '/' + img + ' 1 0 0 50 50\n'
+                    with open('info.dat', 'a') as f:
+                        f.write(line)
+                elif file_type == 'neg':
+                    line = file_type + '/' + img + '\n'
+                    with open('bg.txt', 'a') as f:
+                        f.write(line)
